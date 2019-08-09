@@ -157,17 +157,19 @@ class Persistent
         return cb(ref_obj.context)
     }
 
-    // publishes data to the published state 
-    // and also modified the local state
+    // loads data from the published state
+    // and also modifies the local state
     publish (cb) {
+        this.load()
         cb(this.state.context)
         this.save() 
     }
 
-    // publishes and then 
+    // publishes unsaved work and then 
     // retrieves data from the published state 
     // and then applies operations 
     retrieve (cb) {
+        this.save()
         this.load()
         let val = cb(this.state.context)
         return val
